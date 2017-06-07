@@ -1,9 +1,10 @@
-var app = Vue ({
+Vue.use(VueMaterial);
+
+var app = new Vue ({
     el: "#root",
-    data:{
+    data: {
         showingAddModal: false
     },
-
     mounted: function(){
         console.log("bonina");
     },
