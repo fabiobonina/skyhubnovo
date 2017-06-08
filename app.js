@@ -1,6 +1,6 @@
 Vue.use(VueMaterial);
 
-var app = new Vue ({
+var app = new Vue({
     el: "#root",
     data: {
         showingAddModal: false
