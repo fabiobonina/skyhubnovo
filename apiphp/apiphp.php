@@ -2,9 +2,6 @@
 
 require_once 'config.php';
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-
 $table = 'login';
 
 
@@ -28,11 +25,16 @@ try {
       if($action == 'read'){
             $query = $conn->prepare("SELECT * FROM $table");
             $query->execute();
-            $result = $query->fetch();
             $resultado = array();
-            array_push($resultado, $result);
+
+            while($result = $query->fetch()) {
+	            array_push($resultado, $result);
+	      }
+            //$resultado = array();
+            //array_push($resultado, $result);
             $res['users'] = $resultado;
             //echo json_encode($resultado);
+
 	}
 
 	if($action == 'create'){
@@ -110,6 +112,8 @@ try {
             }
       }
 
+
+      header("Content-Type: application/json");
       echo json_encode($res);
 	
 

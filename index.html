@@ -11,12 +11,19 @@
     </head>
     <body>
         <div id="root">
+            <md-toolbar class="md-medium">
+                <md-button class="md-icon-button">
+                    <md-icon>menu</md-icon>
+                </md-button>
+                <h2 class="md-title" style="flex: 1">Users</h2>
+                <md-button class="md-icon-button" @click.native="showingAddModal = true">
+                    <md-icon>add</md-icon>
+                </md-button>
+            </md-toolbar>
             <div>
-                <h1 class="md-title">Users</h1>
-                <md-button class="md-fab md-fab-bottom-right" @click.native="showingAddModal = true"><md-icon>add</md-icon></md-button>
+                <p class="successMessage" v-if="successMessage">{{successMessage}}</p>
+                <p class="errorMessage" v-if="errorMessage">{{errorMessage}}</p>
                 
-                <p v-if="errorMessage">{{errorMessage}}</p>
-                <p v-if="successMessage">{{successMessage}}</p>
                 <md-table>
                     <md-table-header>
                     <md-table-row>
@@ -28,31 +35,19 @@
                     </md-table-row>
                     </md-table-header>
                     <md-table-body>
-                    <md-table-row>
-                        <md-table-cell>
-                        <md-input-container>
-                            <md-input></md-input>
-                        </md-input-container>
-                        </md-table-cell>
-                        <md-table-cell>
-                        <md-input-container>
-                            <md-input></md-input>
-                        </md-input-container>
-                        </md-table-cell>
-                        <md-table-cell>
-                        <md-input-container>
-                            <md-input></md-input>
-                        </md-input-container>
-                        </md-table-cell>
-                        <md-table-cell>
-                        <md-switch></md-input>
-                        </md-table-cell>
-                        <md-button class="md-raised md-primary">Update</md-button>
+                    <md-table-row v-for="user in users">
+                        <md-table-cell>{{user.id}}</md-table-cell>
+                        <md-table-cell>{{user.nome}}</md-table-cell>
+                        <md-table-cell>{{user.nickuser}}</md-table-cell>
+                        <md-table-cell>{{user.email}}</md-table-cell>
+                        <md-button class="md-raised md-primary" @click.native="showingEditModal = true">Update</md-button>
                         </md-tabel-cell>
                     </md-table-row>
                     </md-table-body>
                 </md-table>
             </div>
+
+            <pre>{{ $data }}</pre>
 
             <div class="modal" id="addModal" v-if="showingAddModal">
                 <div class="modalContainer">
@@ -88,6 +83,7 @@
                 </div>
             </div>
         </div>
+        <script src='js/axios.js'></script>
         <script src='vuejs/vue.js'></script>
         <script src='js/vue-material@0.7.1'></script>
         <script src='vuejs/vue.js'></script>
