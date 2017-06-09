@@ -15,6 +15,8 @@
                 <h1 class="md-title">Users</h1>
                 <md-button class="md-fab md-fab-bottom-right" @click.native="showingAddModal = true"><md-icon>add</md-icon></md-button>
                 
+                <p v-if="errorMessage">{{errorMessage}}</p>
+                <p v-if="successMessage">{{successMessage}}</p>
                 <md-table>
                     <md-table-header>
                     <md-table-row>
