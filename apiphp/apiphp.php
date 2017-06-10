@@ -42,7 +42,7 @@ try {
             $nome = $_POST['nome'];
             $email = $_POST['email'];
             $nickuser = $_POST['user'];
-            $senha = $_POST['senha'];
+            $senha = "123";//$_POST['senha'];
             $nivel_usuario = "0";
 		$ativo = "0";
 		$datacadastro = date("Y-m-d H:i:s");

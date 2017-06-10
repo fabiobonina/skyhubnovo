@@ -59,23 +59,23 @@
                     <div class="modalContent">
                         <form novalidate @submit.stop.prevent="submit">
                             <md-input-container>
+                                <label>Nome</label>
+                                <md-input type="text" v-model="user.nome"></md-input>
+                            </md-input-container>
+
+                            <md-input-container>
                                 <label>Usuario</label>
-                                <md-input></md-input>
+                                <md-input type="text" v-model="user.user"></md-input>
                             </md-input-container>
 
                             <md-input-container>
                                 <label>Email</label>
-                                <md-input></md-input>
-                            </md-input-container>
-
-                            <md-input-container>
-                                <label>Mobile</label>
-                                <md-input></md-input>
+                                <md-input type="text" v-model="user.email"></md-input>
                             </md-input-container>
                             </div>
                                 <md-bottom-bar md-theme="teal">
                                     <md-bottom-bar-item md-icon="history" @click.native="showingAddModal = false">Cancelar</md-bottom-bar-item>
-                                    <md-bottom-bar-item md-icon="near_me">Nearby</md-bottom-bar-item>
+                                    <md-bottom-bar-item md-icon="near_me" @click.native="showingAddModal = false; saveUser()">Nearby</md-bottom-bar-item>
                                 </md-bottom-bar>
                             </div>
                         </form>
