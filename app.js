@@ -11,12 +11,12 @@ var app = new Vue({
             showingDeleteModal: false,
             errorMessage: "",
             successMessage: "",
-            users: [],
             user: {
                 nome: "",
                 email: "",
                 user: "",
-            }
+            },
+            users: []
         }
     },
     mounted: function(){
@@ -25,7 +25,7 @@ var app = new Vue({
     },
     methods: {
         getAllUsers: function(){
-            this.$http.get('http://localhost/codephp/skyhubnovo/apiphp/apiphp.php?action=read')
+            this.$http.get('http://localhost/codephp/skyhubnovo/api/apiphp.php?action=read')
             .then((response) => {
                 if(response.data.error){
                     this.errorMessage = response.data.message;
@@ -47,9 +47,41 @@ var app = new Vue({
         saveUser: function(){
             //console.log(this.user);
             var formData = this.toFormData(this.user);
-
-            this.$http.post('http://localhost/codephp/skyhubnovo/apiphp/apiphp.php?action=create', formData)
+            //console.log(this.formData);
+            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=create", formData)
             .then((response) => {
+                this.user = { nome: "", email: "", user: "" };
+                if(response.data.error){
+                    this.errorMessage = response.data.message;
+                } else{
+                    this.getAllUsers();
+                    //console.log(this.users);
+                }
+            });
+        },
+        selecUser(user){
+            this.user = user;
+            this.showingAddModal = true;
+            var formData = this.toFormData(this.user);
+            //console.log(this.formData);
+            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=create", formData)
+            .then((response) => {
+                this.user = { nome: "", email: "", user: "" };
+                if(response.data.error){
+                    this.errorMessage = response.data.message;
+                } else{
+                    this.getAllUsers();
+                    //console.log(this.users);
+                }
+            });
+        },
+        updateUser: function(){
+            //console.log(this.user);
+            var formData = this.toFormData(this.user);
+            //console.log(this.formData);
+            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=create", formData)
+            .then((response) => {
+                this.user = { nome: "", email: "", user: "" };
                 if(response.data.error){
                     this.errorMessage = response.data.message;
                 } else{
