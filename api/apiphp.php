@@ -30,11 +30,7 @@ try {
             while($result = $query->fetch()) {
 	            array_push($resultado, $result);
 	      }
-            //$resultado = array();
-            //array_push($resultado, $result);
             $res['users'] = $resultado;
-            //echo json_encode($resultado);
-
 	}
 
 	if($action == 'create'){

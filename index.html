@@ -27,10 +27,10 @@
                 <md-table>
                     <md-table-header>
                     <md-table-row>
-                        <md-table-head>First Name</md-table-head>
-                        <md-table-head>Last Name</md-table-head>
+                        <md-table-head>ID</md-table-head>
+                        <md-table-head>Nome</md-table-head>
+                        <md-table-head>Usuario</md-table-head>
                         <md-table-head>Email</md-table-head>
-                        <md-table-head>Active</md-table-head>
                         <md-table-head>&nbsp;</md-table-head>
                     </md-table-row>
                     </md-table-header>
@@ -40,8 +40,8 @@
                         <md-table-cell>{{user.nome}}</md-table-cell>
                         <md-table-cell>{{user.nickuser}}</md-table-cell>
                         <md-table-cell>{{user.email}}</md-table-cell>
-                        <md-button class="md-raised md-primary" @click.native="showingEditModal = true">Update</md-button>
-                        </md-tabel-cell>
+                        <md-button class="md-icon-button md-raised md-primary" @click.native="showingEditModal = true; selecUser(user)"><md-icon>edit</md-icon></md-button>
+                        <md-button class="md-icon-button md-raised md-accent" @click.native="showingDeletModal = true; selecUser(user)"><md-icon>delete</md-icon></md-button>
                     </md-table-row>
                     </md-table-body>
                 </md-table>
@@ -53,32 +53,79 @@
                 <div class="modalContainer">
                     <md-toolbar>
                         <div class="md-toolbar-container">
-                            <h3 class="md-title">Sidenav content</h3>
+                            <h3 class="md-title">Novo Usuario</h3>
                         </div>
                     </md-toolbar>
                     <div class="modalContent">
                         <form novalidate @submit.stop.prevent="submit">
                             <md-input-container>
                                 <label>Nome</label>
-                                <md-input type="text" v-model="user.nome"></md-input>
+                                <md-input type="text" v-model="newUser.nome"></md-input>
                             </md-input-container>
-
                             <md-input-container>
                                 <label>Usuario</label>
-                                <md-input type="text" v-model="user.user"></md-input>
+                                <md-input type="text" v-model="newUser.user"></md-input>
                             </md-input-container>
-
                             <md-input-container>
                                 <label>Email</label>
-                                <md-input type="text" v-model="user.email"></md-input>
+                                <md-input type="text" v-model="newUser.email"></md-input>
                             </md-input-container>
-                            </div>
-                                <md-bottom-bar md-theme="teal">
-                                    <md-bottom-bar-item md-icon="history" @click.native="showingAddModal = false">Cancelar</md-bottom-bar-item>
-                                    <md-bottom-bar-item md-icon="near_me" @click.native="showingAddModal = false; saveUser()">Salva</md-bottom-bar-item>
-                                </md-bottom-bar>
-                            </div>
                         </form>
+                    </div>
+                    <div>
+                        <md-bottom-bar md-theme="teal">
+                            <md-bottom-bar-item md-icon="cancel" @click.native="showingAddModal = false">Cancelar</md-bottom-bar-item>
+                            <md-bottom-bar-item md-icon="save" @click.native="showingAddModal = false; saveUser()">Salva</md-bottom-bar-item>
+                        </md-bottom-bar>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="editModal" v-if="showingEditModal">
+                <div class="modalContainer">
+                    <md-toolbar>
+                        <div class="md-toolbar-container">
+                            <h3 class="md-title">Editar Usuario</h3>
+                        </div>
+                    </md-toolbar>
+                    <div class="modalContent">
+                        <form novalidate @submit.stop.prevent="submit">
+                            <md-input-container>
+                                <label>Nome</label>
+                                <md-input type="text" v-model="newUser.nome"></md-input>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Usuario</label>
+                                <md-input type="text" v-model="newUser.user"></md-input>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Email</label>
+                                <md-input type="text" v-model="newUser.email"></md-input>
+                            </md-input-container>
+                        </form>
+                    </div>
+                    <div>
+                        <md-bottom-bar md-theme="teal">
+                            <md-bottom-bar-item md-icon="cancel" @click.native="showingEditModal = false">Cancelar</md-bottom-bar-item>
+                            <md-bottom-bar-item md-icon="save" @click.native="showingEditModal = false; updateUser()">Salva</md-bottom-bar-item>
+                        </md-bottom-bar>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="deletModal" v-if="showingDeletModal">
+                <div class="modalContainer">
+                    <md-toolbar>
+                        <div class="md-toolbar-container">
+                            <h3 class="md-title">você tem certeza?</h3>
+                        </div>
+                    </md-toolbar>
+                    <div class="modalContent">
+                        <p>Você vai apagar '{{newUser.nome}}'.</p>
+                    </div>
+                    <div>
+                        <md-bottom-bar md-theme="teal">
+                            <md-bottom-bar-item md-icon="cancel" @click.native="showingDeletModal = false">Cancelar</md-bottom-bar-item>
+                            <md-bottom-bar-item md-icon="delete" @click.native="showingDeletModal = false; deletUser()">Deletar</md-bottom-bar-item>
+                        </md-bottom-bar>
                     </div>
                 </div>
             </div>

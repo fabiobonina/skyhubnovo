@@ -8,15 +8,12 @@ var app = new Vue({
         return{
             showingAddModal: false,
             showingEditModal: false,
-            showingDeleteModal: false,
+            showingDeletModal: false,
             errorMessage: "",
             successMessage: "",
-            user: {
-                nome: "",
-                email: "",
-                user: "",
-            },
-            users: []
+            newUser: { nome: "", email: "", user: "" },
+            users: [],
+            modalUser: {}
         }
     },
     mounted: function(){
@@ -31,64 +28,50 @@ var app = new Vue({
                     this.errorMessage = response.data.message;
                 } else{
                     this.users = response.data.users;
-                    //console.log(this.users);
                 }
             });
-            //axios.get("http://localhost:83/codephp/skyhubnovo/apiphp/apiphp.php?action=read")
-            //.then(function(response){
-            //    if(response.data.error){
-            //        this.errorMessage = response.data.message;
-            //    } else{
-            //        this.users = response.data;
-            //        console.log(this.users);
-            //    }
-            //});
         },
         saveUser: function(){
-            //console.log(this.user);
-            var formData = this.toFormData(this.user);
-            //console.log(this.formData);
+            var formData = this.toFormData(this.newUser);
             axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=create", formData)
             .then((response) => {
-                this.user = { nome: "", email: "", user: "" };
+                this.newUser = { nome: "", email: "", user: "" };
                 if(response.data.error){
                     this.errorMessage = response.data.message;
                 } else{
+                    this.successMessage = response.data.message;
                     this.getAllUsers();
-                    //console.log(this.users);
-                }
-            });
-        },
-        selecUser(user){
-            this.user = user;
-            this.showingAddModal = true;
-            var formData = this.toFormData(this.user);
-            //console.log(this.formData);
-            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=create", formData)
-            .then((response) => {
-                this.user = { nome: "", email: "", user: "" };
-                if(response.data.error){
-                    this.errorMessage = response.data.message;
-                } else{
-                    this.getAllUsers();
-                    //console.log(this.users);
                 }
             });
         },
         updateUser: function(){
-            //console.log(this.user);
-            var formData = this.toFormData(this.user);
-            //console.log(this.formData);
-            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=create", formData)
+            var formData = this.toFormData(this.modalUser);
+            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=update", formData)
             .then((response) => {
-                this.user = { nome: "", email: "", user: "" };
+                this.modalUser = {};
                 if(response.data.error){
                     this.errorMessage = response.data.message;
                 } else{
+                    this.successMessage = response.data.message;
                     this.getAllUsers();
-                    //console.log(this.users);
                 }
             });
+        },
+        deleteUser: function(){
+            var formData = this.toFormData(this.modalUser);
+            axios.post("http://localhost/codephp/skyhubnovo/api/apiphp.php?action=delete", formData)
+            .then((response) => {
+                this.modalUser = {};
+                if(response.data.error){
+                    this.errorMessage = response.data.message;
+                } else{
+                    this.successMessage = response.data.message;
+                    this.getAllUsers();
+                }
+            });
+        },
+        selecUser: function(user){
+            this.modalUser = user;
         },
         toFormData: function(obj){
             var form_data = new FormData();
