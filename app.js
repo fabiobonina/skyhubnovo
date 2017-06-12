@@ -12,8 +12,9 @@ var app = new Vue({
             errorMessage: "",
             successMessage: "",
             newUser: { nome: "", email: "", user: "" },
-            users: [],
-            modalUser: {}
+            modalUser: {},
+            users: []
+            
         }
     },
     mounted: function(){

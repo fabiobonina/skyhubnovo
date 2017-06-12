@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -11,12 +12,17 @@
     </head>
     <body>
         <div id="root">
-            <router-view></router-view>
+            <md-layout md-align="center" :md-gutter="40">
+            <md-layout md-flex="40">
+                <span>center-----------------------------------------------------------------------</span>
+            </md-layout>
+            </md-layout>
+
         </div>
         <script src='config/js/axios.js'></script>
         <script src='config/vuejs/vue.js'></script>
         <script src='config/js/vue-material@0.7.1'></script>
-        <script src='config/vuejs/vue-router.js'></script>
+        <script src='config/vuejs/vue.js'></script>
         <script src="app.js"></script>
 
     </body>
