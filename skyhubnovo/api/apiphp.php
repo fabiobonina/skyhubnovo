@@ -6,7 +6,6 @@ $table = 'login';
 
 
 try {
-      
       $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -16,7 +15,7 @@ try {
 
       $res = array('error' => false);
 
-      $action = 'create';
+      $action = 'read';
 
       if(isset($_GET['action'])){
 		$action = $_GET['action'];
@@ -34,30 +33,25 @@ try {
 	}
 
 	if($action == 'create'){
-            $senha = '123abc';
-            $email = "teste1@teste.com";//$_POST['email'];
-            $password = md5($senha);// $_POST['password'];
-            $nickuser = "teste";//$_POST['user'];
-            $phone = "teste";//$_POST['phone'];
-            $avatar = "teste";//$_POST['avatar'];
-            $nome = "teste";//$_POST['nome'];
-            $user = "teste";//$_POST['user'];
-            $nivel = "0";
+
+            $nome = $_POST['nome'];
+            $email = $_POST['email'];
+            $user = $_POST['user'];
+            $senha = "123";//$_POST['senha'];
+            $nivel_usuario = "0";
 		$ativo = "0";
 		$datacadastro = date("Y-m-d H:i:s");
 		$datalogin = date("Y-m-d H:i:s");
 
-		$sql  = "INSERT INTO $table (email, password, user, phone, avatar, nome, nivel, ativo, data_cadastro, data_ultimo_login) ";
-		$sql .= "VALUES (:email, :password, :user, :phone, :avatar, :nome, :nivel, :ativo, :data_cadastro, :data_ultimo_login)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password', $password);
-            $stmt->bindParam(':user', $nickuser);
-            $stmt->bindParam(':phone', $phone);
-            $stmt->bindParam(':avatar', $avatar);
-            $stmt->bindParam(':nome', $nome);
-            $stmt->bindParam(':nivel', $nivel);
-            $stmt->bindParam(':ativo', $ativo);
+		$sql  = "INSERT INTO $table (nome, email, user, senha, nivel, ativo, data_cadastro, data_ultimo_login) ";
+		$sql .= "VALUES (:nome, :email, :user, :senha, :nivel, :ativo, :data_cadastro, :data_ultimo_login)";
+		$stmt = $conn->prepare($sql);
+		$stmt->bindParam(':nome',$nome);
+		$stmt->bindParam(':email',$email);
+		$stmt->bindParam(':user',$user);
+		$stmt->bindParam(':senha',$senha);
+		$stmt->bindParam(':nivel',$nivel_usuario);
+		$stmt->bindParam(':ativo',$ativo);
 		$stmt->bindParam(':data_cadastro',$datacadastro);
 		$stmt->bindParam(':data_ultimo_login',$datalogin);
 		return $stmt->execute();
@@ -76,7 +70,7 @@ try {
             $nome = $_POST['nome'];
             $email = $_POST['email'];
             $user = $_POST['user'];
-            $senha = $_POST['senha'];
+            $senha = '123';//$_POST['senha'];
 
             $sql  = "UPDATE $table SET nome = :nome, email = :email, user = :user, senha = :senha WHERE id = :id";
             $stmt = $conn->prepare($sql);
@@ -111,35 +105,27 @@ try {
                   $res['message'] = "Error, usuario não deletado";
             }
       }
-      if($action == 'logar'){
-            
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $sql = "SELECT * FROM $table WHERE BINARY email = :email AND BINARY senha = :senha ";
-			
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':senha', $password);
-            $stmt->execute();
 
-            $resultado = array();
-            if($stmt){
-                  
-            $result = $stmt->fetch();
-            $resultado = $result;
-            
-            $res['auth'] = true; 
-            $res['user'] = $resultado;                        
 
-            }else{
-                  $res['error'] = true;
-                  $res['message'] = "Error, email ou senha invalido. Tente novamente ou cadastra-se";
-            }
-
-      }
+      header("Content-Type: application/json");
+      echo json_encode($res);
+	
 
 } catch (Exception $e) {
-	$res['erro'] = $e->getMessage();
+	echo "Erro: ". $e->getMessage();
 };
-header("Content-Type: application/json");
-echo json_encode($res);
+
+//RECUPERAÇÃO DO FORMULÁRIO
+//$data = file_get_contents("php://input");
+//$objData = json_decode($data);
+
+//$user = $objData->username;
+//$senha_informada = $objData->password;
+
+//$user = 'fabio.bonina';
+//$senha_informada = '123abc';
+
+//$user = 'fabio.bonina';
+//$senha = '123abc';
+//$senha_informada = md5($senha);
+//$senha_informada = $senha;
